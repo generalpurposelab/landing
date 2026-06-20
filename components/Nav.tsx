@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -9,8 +8,21 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
   const pathname = usePathname();
   const btnRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const navLogoRef = useRef<HTMLAnchorElement>(null);
+  const menuWordmarkRef = useRef<HTMLAnchorElement>(null);
   const openRef = useRef(false);
   const busyRef = useRef(false);
+
+  // Fetch SVG and inject inline so fill="currentColor" inherits from CSS color
+  useEffect(() => {
+    fetch('/assets/Union.svg')
+      .then(r => r.text())
+      .then(svg => {
+        if (navLogoRef.current) navLogoRef.current.innerHTML = svg;
+        if (menuWordmarkRef.current) menuWordmarkRef.current.innerHTML = svg;
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const btn = btnRef.current;
@@ -86,11 +98,15 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
     <>
       {variant === 'static' && (
         <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '36px 52px' }}>
-          <Link href="/" style={{ display: 'block', width: 148, color: 'var(--ink)', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s' }}
+          {/* ref-injected SVG so fill="currentColor" picks up color: var(--ink) */}
+          <a
+            ref={navLogoRef}
+            href="/"
+            aria-label="General Purpose"
+            style={{ display: 'block', width: 148, color: 'var(--ink)', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s' }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}>
-            <Image src="/assets/Union.svg" alt="General Purpose" width={148} height={40} style={{ width: '100%', height: 'auto' }} />
-          </Link>
+            onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
+          />
         </nav>
       )}
 
@@ -101,9 +117,13 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
       </button>
 
       <div className="menu-overlay" ref={overlayRef} role="dialog" aria-modal="true">
-        <Link href="/" className="menu-wordmark" aria-label="General Purpose — Home">
-          <Image src="/assets/Union.svg" alt="General Purpose" width={160} height={44} style={{ width: '100%', height: 'auto', filter: 'invert(1)' }} />
-        </Link>
+        {/* color:#fff on parent → fill="currentColor" paths render white */}
+        <a
+          ref={menuWordmarkRef}
+          href="/"
+          className="menu-wordmark"
+          aria-label="General Purpose — Home"
+        />
         <nav className="menu-nav">
           {links.map(({ href, label }) => (
             <Link
