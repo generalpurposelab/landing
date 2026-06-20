@@ -205,18 +205,6 @@ export default function JoinClient() {
         )}
       </div>
 
-      <footer className={styles.siteFooter}>
-        <div className={styles.footerRuleWrap}>
-          <div className={styles.footerRule} />
-          <div className={styles.footerInner}>
-            <span className={styles.footerCopy}>&copy; 2025 General Purpose</span>
-            <nav className={styles.footerLinks}>
-              <a href="/about">About</a>
-              <a href="/join">Join Us</a>
-            </nav>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
