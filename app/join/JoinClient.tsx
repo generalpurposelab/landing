@@ -55,6 +55,9 @@ export default function JoinClient() {
       });
 
       if (res.ok) {
+        if (newsletter) {
+          window.open('https://generalpurpose.beehiiv.com/', '_blank', 'noopener,noreferrer');
+        }
         if (formRef.current) {
           formRef.current.style.transition = 'opacity 0.3s';
           formRef.current.style.opacity = '0';
