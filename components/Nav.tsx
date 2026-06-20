@@ -15,7 +15,8 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
 
   // Fetch SVG and inject inline so fill="currentColor" inherits from CSS color
   useEffect(() => {
-    fetch('/assets/Union.svg')
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+    fetch(`${base}/assets/Union.svg`)
       .then(r => r.text())
       .then(svg => {
         if (navLogoRef.current) navLogoRef.current.innerHTML = svg;

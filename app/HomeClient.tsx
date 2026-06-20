@@ -158,7 +158,8 @@ export default function HomeClient() {
     });
 
     // Load CANOPY.svg into field 1
-    fetch('/assets/CANOPY.svg').then(r => r.text()).then(svgText => {
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+    fetch(`${base}/assets/CANOPY.svg`).then(r => r.text()).then(svgText => {
       const blob = new Blob([svgText], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const img = new Image();
@@ -180,7 +181,7 @@ export default function HomeClient() {
     }).catch(() => {});
 
     // Load Stippling.svg into field 2
-    fetch('/assets/Stippling.svg').then(r => r.text()).then(svgText => {
+    fetch(`${base}/assets/Stippling.svg`).then(r => r.text()).then(svgText => {
       const blob = new Blob([svgText], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const img = new Image();
@@ -417,8 +418,8 @@ export default function HomeClient() {
 
     // Load SVGs then run intro
     Promise.all([
-      fetch('/assets/Union.svg').then(r => r.text()).catch(() => null),
-      fetch('/assets/icon-sphere.svg').then(r => r.text()).catch(() => null),
+      fetch(`${base}/assets/Union.svg`).then(r => r.text()).catch(() => null),
+      fetch(`${base}/assets/icon-sphere.svg`).then(r => r.text()).catch(() => null),
       document.fonts.ready,
     ]).then(([unionSvg, sphereSvg]) => {
       if (unionSvg && logotypeRef.current) {
