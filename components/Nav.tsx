@@ -98,17 +98,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
   return (
     <>
       {variant === 'static' && (
-        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '36px 52px' }}>
-          {/* ref-injected SVG so fill="currentColor" picks up color: var(--ink) */}
-          <a
-            ref={navLogoRef}
-            href="/"
-            aria-label="General Purpose"
-            style={{ display: 'block', width: 148, color: 'var(--ink)', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
-          />
-        </nav>
+        <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '36px 52px' }} />
       )}
 
       <button className="menu-btn" ref={btnRef} aria-label="Open menu" aria-expanded="false">
