@@ -5,12 +5,12 @@ import styles from './about.module.css';
 
 const beliefs = [
   { num: '00', title: 'General Purpose', copy: ['is a technology studio that applies frontier intelligence to shape our collective future. From winning an XPrize by deploying autonomous systems in the Brazilian Amazon to protect biodiversity, to developing new benchmarks with OpenAI for low-resource-languages, we pursue engineering, design, and research projects across a range of scales and domains.', 'This page is a collection of principles that guide our work.'] },
-  { num: '01', title: 'Create for future generations', copy: 'Show them that we looked beyond our lifetimes, and built for them.' },
-  { num: '02', title: 'Problem-led', copy: 'We believe in problem-led design, and in immersing to understand.' },
-  { num: '03', title: 'Simple is sophisticated', copy: null },
-  { num: '04', title: 'Distribute the future', copy: "The jagged frontier of technological advancement doesn't advance evenly." },
-  { num: '05', title: 'Unlearning is essential', copy: null },
-  { num: '06', title: 'Design with, not for', copy: 'Avoid the savior complex.' },
+  { num: '01', title: 'Problem first', copy: 'We practice problem-led design. Every project begins with immersions, with system mapping, and with primary and secondary research to ensure we have an embodied understanding of a space before we propose or build solutions. This requires the intellectual honesty of knowing when technology, or AI, are not a suitable solution.' },
+  { num: '02', title: 'Distribute the future', copy: "The jagged frontier of technological advancement doesn't advance evenly. Our purpose is to distribute the future." },
+  { num: '03', title: 'Create for the next generations', copy: "Our aspiration is to look beyond our lifetimes, and to build for generations that haven't been born yet." },
+  { num: '04', title: 'Design with, not for', copy: 'Co-create with users. From discovery and insight, to implementation and iteration, we design alongside stakeholders at every stage of the process.' },
+  { num: '05', title: 'Simple is sophisticated', copy: "Occam's Razor is the essential wisdom. Don't make things complicated when simple will suffice." },
+  { num: '06', title: 'Unlearn to move forward', copy: 'Much of the traditional knowledge about how to build products, and how to run a company, no longer applies. This requires relentless unlearning.' },
   { num: '07', title: 'Say please and thank you', copy: "When the agents take over, we want to be on their good side." },
 ];
 
