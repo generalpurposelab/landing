@@ -19,6 +19,7 @@ export default function AboutClient() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const ruleRef = useRef<HTMLDivElement>(null);
   const beliefRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const expandRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     // Set gradient opacities on titles
@@ -59,7 +60,19 @@ export default function AboutClient() {
 
   function toggleBelief(idx: number) {
     if (beliefs[idx].copy === null) return;
-    setOpenIdx(prev => prev === idx ? null : idx);
+    setOpenIdx(prev => {
+      const next = prev === idx ? null : idx;
+      // Close previous
+      if (prev !== null && expandRefs.current[prev]) {
+        expandRefs.current[prev]!.style.height = '0px';
+      }
+      // Open next
+      if (next !== null && expandRefs.current[next]) {
+        const el = expandRefs.current[next]!;
+        el.style.height = el.scrollHeight + 'px';
+      }
+      return next;
+    });
   }
 
   function getHoverStyle(i: number): React.CSSProperties {
@@ -102,7 +115,10 @@ export default function AboutClient() {
 
               {b.copy !== null && (
                 <div className={styles.beliefExpand}>
-                  <div className={styles.beliefExpandInner}>
+                  <div
+                    ref={el => { expandRefs.current[i] = el; }}
+                    className={styles.beliefExpandInner}
+                  >
                     {Array.isArray(b.copy)
                       ? b.copy.map((para, j) => <p key={j} className={styles.beliefCopy}>{para}</p>)
                       : <p className={styles.beliefCopy}>{b.copy}</p>

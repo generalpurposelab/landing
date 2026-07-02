@@ -104,10 +104,9 @@
 }
 .beliefExpandInner {
   overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.42s cubic-bezier(0.2, 0, 0.2, 1);
+  height: 0;
+  transition: height 0.42s cubic-bezier(0.2, 0, 0.2, 1);
 }
-.belief.open .beliefExpandInner { max-height: 1000px; }
 .beliefCopy {
   font-family: var(--f-display);
   font-size: clamp(18px, 2.1vw, 30px);
