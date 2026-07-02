@@ -63,11 +63,8 @@ export default function AboutClient() {
   }
 
   function getHoverStyle(i: number): React.CSSProperties {
-    if (openIdx !== null || hoveredIdx === null) return { transition: 'opacity 0.2s ease' };
-    return {
-      opacity: hoveredIdx === i ? 1 : 0.42,
-      transition: 'opacity 0.18s ease',
-    };
+    if (hoveredIdx === null || openIdx !== null) return {};
+    return hoveredIdx === i ? {} : { opacity: 0.42 };
   }
 
   return (

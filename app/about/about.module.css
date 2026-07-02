@@ -17,7 +17,7 @@
   border-top: 1px solid rgba(168, 172, 181, 0.22);
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.2s ease, transform 0.6s ease;
 }
 .belief:last-child { border-bottom: 1px solid rgba(168, 172, 181, 0.22); }
 .belief.visible { opacity: 1; transform: translateY(0); }
