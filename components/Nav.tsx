@@ -12,6 +12,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
   const menuWordmarkRef = useRef<HTMLAnchorElement>(null);
   const openRef = useRef(false);
   const busyRef = useRef(false);
+  const closeMenuRef = useRef<() => void>(() => {});
 
   // Fetch SVG and inject inline so fill="currentColor" inherits from CSS color
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
       document.body.style.overflow = 'hidden';
     }
 
+    closeMenuRef.current = closeMenu;
     function closeMenu() {
       if (!openRef.current || busyRef.current) return;
       busyRef.current = true;
@@ -120,6 +122,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
               key={href}
               href={href}
               className={pathname === href ? 'active' : ''}
+              onClick={() => closeMenuRef.current()}
             >
               {label}
             </Link>
