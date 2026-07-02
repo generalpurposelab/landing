@@ -20,7 +20,7 @@
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .belief:last-child { border-bottom: 1px solid rgba(168, 172, 181, 0.22); }
-.visible { opacity: 1; transform: translateY(0); }
+.belief.visible { opacity: 1; transform: translateY(0); }
 
 @media (prefers-color-scheme: dark) {
   .belief, .belief:last-child { border-color: rgba(180, 180, 180, 0.14); }
