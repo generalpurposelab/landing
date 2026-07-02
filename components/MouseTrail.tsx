@@ -22,8 +22,9 @@ export default function MouseTrail() {
 
     let W = window.innerWidth;
     let H = window.innerHeight;
-    canvas.width = W;
-    canvas.height = H;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
 
     const particles: Particle[] = [];
     let mx = -999, my = -999;
@@ -47,8 +48,9 @@ export default function MouseTrail() {
     function onResize() {
       W = window.innerWidth;
       H = window.innerHeight;
-      canvas.width = W;
-      canvas.height = H;
+      canvas.width = W * devicePixelRatio;
+      canvas.height = H * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
     }
 
     function tick() {
@@ -82,7 +84,10 @@ export default function MouseTrail() {
       ref={canvasRef}
       style={{
         position: 'fixed',
-        inset: 0,
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
         pointerEvents: 'none',
         zIndex: 9999,
       }}
