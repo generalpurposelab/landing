@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import styles from './home.module.css';
 
 const PHRASES = [
@@ -664,7 +665,9 @@ export default function HomeClient() {
             <canvas ref={canvasRef} id="dotCanvas" className={styles.dotCanvas} />
             <div ref={earthLayerRef} className={styles.earthLayer} />
           </div>
-          <div ref={logotypeRef} className={styles.logotypeWrap} aria-label="General Purpose" />
+          <Link href="/about" aria-label="General Purpose — About">
+            <div ref={logotypeRef} className={styles.logotypeWrap} />
+          </Link>
         </div>
 
         <h1 ref={h1Ref} className={styles.h1}>
