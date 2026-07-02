@@ -117,7 +117,6 @@ export default function HomeClient() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const earthLayerRef = useRef<HTMLDivElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
-  const productRowRef = useRef<HTMLDivElement>(null);
   const introStageRef = useRef<HTMLDivElement>(null);
   const logotypeRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -402,7 +401,6 @@ export default function HomeClient() {
           h1Done = true;
           requestAnimationFrame(() => {
             h1Ref.current?.classList.add(styles.visible);
-            productRowRef.current?.classList.add(styles.visible);
           });
         }
 
