@@ -17,15 +17,22 @@
   border-top: 1px solid rgba(168, 172, 181, 0.22);
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.2s ease, transform 0.6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .belief:last-child { border-bottom: 1px solid rgba(168, 172, 181, 0.22); }
+
+/* Higher specificity than .listHovered .belief so visible items stay visible */
 .belief.visible { opacity: 1; transform: translateY(0); }
 
 @media (prefers-color-scheme: dark) {
   .belief, .belief:last-child { border-color: rgba(180, 180, 180, 0.14); }
 }
 
+/* Hover dimming at list level */
+.listHovered .belief { opacity: 0.42; transition: opacity 0.18s ease, transform 0.6s ease; }
+.listHovered .belief.isHovered { opacity: 1; }
+.listHovered .belief.open { opacity: 1; }
+.belief.open { opacity: 1 !important; }
 
 .beliefNum {
   grid-column: 1;
@@ -42,7 +49,8 @@
   opacity: 0.75;
   transition: opacity 0.2s, color 0.2s;
 }
-.belief.isHovered .beliefNum { opacity: 1; color: var(--ink); }
+.listHovered .belief:not(.isHovered):not(.open) .beliefNum { opacity: 0.38; }
+.listHovered .belief.isHovered .beliefNum { opacity: 1; color: var(--ink); }
 .belief.open .beliefNum { color: var(--orange); opacity: 0.9; }
 
 .beliefTrigger {
@@ -78,6 +86,8 @@
   opacity: var(--title-op, 1);
   transition: opacity 0.22s ease;
 }
+.listHovered .belief:not(.isHovered):not(.open) .beliefTitle { opacity: 0.38; }
+.listHovered .belief.isHovered .beliefTitle,
 .belief.open .beliefTitle { opacity: 1; }
 
 .beliefIcon {
@@ -101,12 +111,12 @@
 .beliefExpand {
   grid-column: 2;
   grid-row: 2;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s cubic-bezier(0.2, 0, 0.2, 1);
 }
-.beliefExpandInner {
-  overflow: hidden;
-  height: 0;
-  transition: height 0.42s cubic-bezier(0.2, 0, 0.2, 1);
-}
+.belief.open .beliefExpand { grid-template-rows: 1fr; }
+.beliefExpandInner { overflow: hidden; min-height: 0; }
 .beliefCopy {
   font-family: var(--f-display);
   font-size: clamp(18px, 2.1vw, 30px);

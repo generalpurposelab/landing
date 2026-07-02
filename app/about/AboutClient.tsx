@@ -19,10 +19,8 @@ export default function AboutClient() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const ruleRef = useRef<HTMLDivElement>(null);
   const beliefRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const expandRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Set gradient opacities on titles
     beliefRefs.current.forEach((el, i) => {
       if (el) {
         const op = (1 - (i / (beliefs.length - 1)) * 0.75).toFixed(2);
@@ -30,12 +28,11 @@ export default function AboutClient() {
       }
     });
 
-    // Scroll reveal
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add(styles.visible);
-          // Clear the delay after reveal so hover transitions aren't affected
+          // Clear delay after reveal so hover transitions aren't staggered
           entry.target.addEventListener('transitionend', () => {
             (entry.target as HTMLElement).style.transitionDelay = '';
           }, { once: true });
@@ -60,31 +57,14 @@ export default function AboutClient() {
 
   function toggleBelief(idx: number) {
     if (beliefs[idx].copy === null) return;
-    setOpenIdx(prev => {
-      const next = prev === idx ? null : idx;
-      // Close previous
-      if (prev !== null && expandRefs.current[prev]) {
-        expandRefs.current[prev]!.style.height = '0px';
-      }
-      // Open next
-      if (next !== null && expandRefs.current[next]) {
-        const el = expandRefs.current[next]!;
-        el.style.height = el.scrollHeight + 'px';
-      }
-      return next;
-    });
-  }
-
-  function getHoverStyle(i: number): React.CSSProperties {
-    if (hoveredIdx === null || openIdx !== null) return {};
-    return { opacity: hoveredIdx === i ? 1 : 0.55 };
+    setOpenIdx(prev => prev === idx ? null : idx);
   }
 
   return (
     <div className={styles.pageWrap}>
       <div className={styles.beliefsSection}>
         <ol
-          className={styles.beliefs}
+          className={`${styles.beliefs} ${hoveredIdx !== null ? styles.listHovered : ''}`}
           onMouseLeave={() => setHoveredIdx(null)}
         >
           {beliefs.map((b, i) => (
@@ -92,7 +72,6 @@ export default function AboutClient() {
               key={i}
               ref={el => { beliefRefs.current[i] = el; }}
               className={`${styles.belief} ${openIdx === i ? styles.open : ''} ${hoveredIdx === i ? styles.isHovered : ''}`}
-              style={getHoverStyle(i)}
               data-idx={i}
               onMouseEnter={() => setHoveredIdx(i)}
             >
@@ -115,10 +94,7 @@ export default function AboutClient() {
 
               {b.copy !== null && (
                 <div className={styles.beliefExpand}>
-                  <div
-                    ref={el => { expandRefs.current[i] = el; }}
-                    className={styles.beliefExpandInner}
-                  >
+                  <div className={styles.beliefExpandInner}>
                     {Array.isArray(b.copy)
                       ? b.copy.map((para, j) => <p key={j} className={styles.beliefCopy}>{para}</p>)
                       : <p className={styles.beliefCopy}>{b.copy}</p>
