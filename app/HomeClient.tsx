@@ -682,14 +682,7 @@ export default function HomeClient() {
           </span>
         </h1>
 
-        <div ref={productRowRef} className={styles.productRow}>
-          <a href="#" className={styles.productItem}>
-            <span className={styles.productNameLabel}>CANOPY</span>
-            <span className={styles.productStatus}>In development</span>
-          </a>
-          <span className={styles.productSep} />
-          <a href="#" className={styles.productItem}>UHURA</a>
-        </div>
+
       </main>
 
       <footer className={styles.footer} ref={footerRef} id="siteFooter">
