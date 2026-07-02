@@ -132,7 +132,6 @@ html, body {
 .menu-nav a:hover::after { opacity: 1; }
 .menu-overlay.open .menu-nav:hover a { opacity: 0.2; }
 .menu-overlay.open .menu-nav:hover a:hover { opacity: 1; }
-.menu-nav a.active { opacity: 0.4 !important; pointer-events: none; }
 
 .menu-wordmark {
   position: absolute;
