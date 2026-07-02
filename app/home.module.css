@@ -264,3 +264,8 @@
   user-select: none;
 }
 .copyrightVisible { opacity: 1; }
+
+@media (max-width: 640px) {
+  .lineStatic { margin-bottom: 0.5em; }
+  .phraseWrap::after { inset: -6px -10px 0 -10px; }
+}
