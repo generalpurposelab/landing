@@ -50,16 +50,6 @@ export default function Image() {
           General Purpose
         </div>
 
-        <div
-          style={{
-            fontSize: 24,
-            color: 'rgba(238,238,238,0.5)',
-            fontFamily: 'Georgia, serif',
-            letterSpacing: '0.04em',
-          }}
-        >
-          A venture studio for what matters.
-        </div>
       </div>
     ),
     { ...size }
