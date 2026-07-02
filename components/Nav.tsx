@@ -92,7 +92,6 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
   const links = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
-    { href: '/join', label: 'Join Us' },
   ];
 
   return (
