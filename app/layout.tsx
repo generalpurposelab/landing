@@ -4,6 +4,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'General Purpose',
   description: 'A venture studio for what matters.',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
