@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './about.module.css';
 
 const beliefs = [
-  { num: '00', title: 'General Purpose', copy: 'is a design and technology studio that applies frontier intelligence to shape our collective future.' },
+  { num: '00', title: 'General Purpose', copy: ['is a technology studio that applies frontier intelligence to shape our collective future. From winning an XPrize by deploying autonomous systems in the Brazilian Amazon to protect biodiversity, to developing new benchmarks with OpenAI for low-resource-languages, we pursue engineering, design, and research projects across a range of scales and domains.', 'This page is a collection of principles that guide our work.'] },
   { num: '01', title: 'Create for future generations', copy: 'Show them that we looked beyond our lifetimes, and built for them.' },
   { num: '02', title: 'Problem-led', copy: 'We believe in problem-led design, and in immersing to understand.' },
   { num: '03', title: 'Simple is sophisticated', copy: null },
@@ -93,7 +93,10 @@ export default function AboutClient() {
               {b.copy !== null && (
                 <div className={styles.beliefExpand}>
                   <div className={styles.beliefExpandInner}>
-                    <p className={styles.beliefCopy}>{b.copy}</p>
+                    {Array.isArray(b.copy)
+                      ? b.copy.map((para, j) => <p key={j} className={styles.beliefCopy}>{para}</p>)
+                      : <p className={styles.beliefCopy}>{b.copy}</p>
+                    }
                   </div>
                 </div>
               )}
