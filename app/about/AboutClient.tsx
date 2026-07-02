@@ -34,6 +34,10 @@ export default function AboutClient() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add(styles.visible);
+          // Clear the delay after reveal so hover transitions aren't affected
+          entry.target.addEventListener('transitionend', () => {
+            (entry.target as HTMLElement).style.transitionDelay = '';
+          }, { once: true });
           observer.unobserve(entry.target);
         }
       });
@@ -58,11 +62,19 @@ export default function AboutClient() {
     setOpenIdx(prev => prev === idx ? null : idx);
   }
 
+  function getHoverStyle(i: number): React.CSSProperties {
+    if (openIdx !== null || hoveredIdx === null) return { transition: 'opacity 0.2s ease' };
+    return {
+      opacity: hoveredIdx === i ? 1 : 0.42,
+      transition: 'opacity 0.18s ease',
+    };
+  }
+
   return (
     <div className={styles.pageWrap}>
       <div className={styles.beliefsSection}>
         <ol
-          className={`${styles.beliefs} ${hoveredIdx !== null && openIdx === null ? styles.listHovered : ''}`}
+          className={styles.beliefs}
           onMouseLeave={() => setHoveredIdx(null)}
         >
           {beliefs.map((b, i) => (
@@ -70,6 +82,7 @@ export default function AboutClient() {
               key={i}
               ref={el => { beliefRefs.current[i] = el; }}
               className={`${styles.belief} ${openIdx === i ? styles.open : ''} ${hoveredIdx === i ? styles.isHovered : ''}`}
+              style={getHoverStyle(i)}
               data-idx={i}
               onMouseEnter={() => setHoveredIdx(i)}
             >

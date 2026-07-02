@@ -26,14 +26,6 @@
   .belief, .belief:last-child { border-color: rgba(180, 180, 180, 0.14); }
 }
 
-/* Hover dimming at list level */
-.listHovered .belief {
-  opacity: 0.42;
-  transition: opacity 0.18s ease, transform 0.6s ease;
-}
-.listHovered .belief.isHovered,
-.listHovered .belief.open { opacity: 1; }
-.belief.open { opacity: 1 !important; }
 
 .beliefNum {
   grid-column: 1;
@@ -50,8 +42,7 @@
   opacity: 0.75;
   transition: opacity 0.2s, color 0.2s;
 }
-.listHovered .belief:not(.isHovered):not(.open) .beliefNum { opacity: 0.38; }
-.listHovered .belief.isHovered .beliefNum { opacity: 1; color: var(--ink); }
+.belief.isHovered .beliefNum { opacity: 1; color: var(--ink); }
 .belief.open .beliefNum { color: var(--orange); opacity: 0.9; }
 
 .beliefTrigger {
@@ -87,8 +78,6 @@
   opacity: var(--title-op, 1);
   transition: opacity 0.22s ease;
 }
-.listHovered .belief:not(.isHovered):not(.open) .beliefTitle { opacity: 0.38; }
-.listHovered .belief.isHovered .beliefTitle,
 .belief.open .beliefTitle { opacity: 1; }
 
 .beliefIcon {
