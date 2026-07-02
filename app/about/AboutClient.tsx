@@ -62,7 +62,7 @@ export default function AboutClient() {
     <div className={styles.pageWrap}>
       <div className={styles.beliefsSection}>
         <ol
-          className={`${styles.beliefs} ${hoveredIdx !== null ? styles.listHovered : ''}`}
+          className={`${styles.beliefs} ${hoveredIdx !== null && openIdx === null ? styles.listHovered : ''}`}
           onMouseLeave={() => setHoveredIdx(null)}
         >
           {beliefs.map((b, i) => (
