@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 const PIXEL = 8;
 const MAX_AGE = 24;
-const BLUE = '#016efd';
+const BLUE = '#fd7804';
 
 interface Dot { x: number; y: number; age: number; }
 
