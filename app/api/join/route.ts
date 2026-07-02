@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO_EMAIL = process.env.CONTACT_EMAIL ?? 'hello@generalpurpose.io';
+const TO_EMAIL = process.env.CONTACT_EMAIL ?? 'tcobb@hey.com';
 
 export async function POST(req: NextRequest) {
   try {
