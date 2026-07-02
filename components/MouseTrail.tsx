@@ -2,15 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 
-const PIXEL = 6;
-const MAX_AGE = 28;
+const PIXEL = 8;
+const MAX_AGE = 24;
 const BLUE = '#016efd';
 
-interface Particle {
-  x: number;
-  y: number;
-  age: number;
-}
+interface Dot { x: number; y: number; age: number; }
 
 export default function MouseTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -19,62 +15,42 @@ export default function MouseTrail() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
+    const dots: Dot[] = [];
 
-    let W = window.innerWidth;
-    let H = window.innerHeight;
-    canvas.width = W * devicePixelRatio;
-    canvas.height = H * devicePixelRatio;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-
-    const particles: Particle[] = [];
-    let mx = -999, my = -999;
-    let raf = 0;
-
-    function onMouseMove(e: MouseEvent) {
-      // Snap to pixel grid
-      mx = Math.floor(e.clientX / PIXEL) * PIXEL;
-      my = Math.floor(e.clientY / PIXEL) * PIXEL;
-      particles.push({ x: mx, y: my, age: 0 });
-      // Also scatter a few neighbours for pixelated feel
-      for (let i = 0; i < 2; i++) {
-        const ox = (Math.floor(Math.random() * 3) - 1) * PIXEL;
-        const oy = (Math.floor(Math.random() * 3) - 1) * PIXEL;
-        if (ox !== 0 || oy !== 0) {
-          particles.push({ x: mx + ox, y: my + oy, age: 2 });
-        }
-      }
+    function resize() {
+      canvas!.width = window.innerWidth;
+      canvas!.height = window.innerHeight;
     }
+    resize();
+    window.addEventListener('resize', resize);
 
-    function onResize() {
-      W = window.innerWidth;
-      H = window.innerHeight;
-      canvas.width = W * devicePixelRatio;
-      canvas.height = H * devicePixelRatio;
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+    function onMove(e: MouseEvent) {
+      const gx = Math.floor(e.clientX / PIXEL) * PIXEL;
+      const gy = Math.floor(e.clientY / PIXEL) * PIXEL;
+      dots.push({ x: gx, y: gy, age: 0 });
+      dots.push({ x: gx + PIXEL * (Math.random() > 0.5 ? 1 : -1), y: gy, age: 3 });
+      dots.push({ x: gx, y: gy + PIXEL * (Math.random() > 0.5 ? 1 : -1), age: 3 });
     }
+    window.addEventListener('mousemove', onMove);
 
-    function tick() {
-      ctx.clearRect(0, 0, W, H);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.age++;
-        if (p.age > MAX_AGE) { particles.splice(i, 1); continue; }
-        const alpha = 1 - p.age / MAX_AGE;
-        ctx.globalAlpha = alpha * 0.85;
+    let raf: number;
+    function draw() {
+      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
+      for (let i = dots.length - 1; i >= 0; i--) {
+        dots[i].age++;
+        if (dots[i].age > MAX_AGE) { dots.splice(i, 1); continue; }
+        ctx.globalAlpha = (1 - dots[i].age / MAX_AGE) * 0.9;
         ctx.fillStyle = BLUE;
-        ctx.fillRect(p.x, p.y, PIXEL, PIXEL);
+        ctx.fillRect(dots[i].x, dots[i].y, PIXEL, PIXEL);
       }
       ctx.globalAlpha = 1;
-      raf = requestAnimationFrame(tick);
+      raf = requestAnimationFrame(draw);
     }
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('resize', onResize);
-    raf = requestAnimationFrame(tick);
+    raf = requestAnimationFrame(draw);
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMove);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -82,15 +58,7 @@ export default function MouseTrail() {
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        pointerEvents: 'none',
-        zIndex: 9999,
-      }}
+      style={{ position: 'fixed', top: 0, left: 0, pointerEvents: 'none', zIndex: 9999 }}
     />
   );
 }
