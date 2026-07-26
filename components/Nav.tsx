@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import JoinModal from './JoinModal';
 
 export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static' }) {
   const pathname = usePathname();
+  const [joinOpen, setJoinOpen] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const navLogoRef = useRef<HTMLAnchorElement>(null);
@@ -13,6 +15,8 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
   const openRef = useRef(false);
   const busyRef = useRef(false);
   const closeMenuRef = useRef<() => void>(() => {});
+  const joinTimerRef = useRef<number | null>(null);
+  const closeJoin = useCallback(() => setJoinOpen(false), []);
 
   // Fetch SVG and inject inline so fill="currentColor" inherits from CSS color
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
     function closeMenu() {
       if (!openRef.current || busyRef.current) return;
       busyRef.current = true;
-      overlay!.querySelectorAll('.menu-nav a').forEach((a) => {
+      overlay!.querySelectorAll('.menu-nav a, .menu-nav button').forEach((a) => {
         (a as HTMLElement).style.transition = 'opacity 0.15s ease, transform 0.15s ease';
         (a as HTMLElement).style.opacity = '0';
         (a as HTMLElement).style.transform = 'translateY(-6px)';
@@ -56,7 +60,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
         document.body.style.overflow = '';
       }, 160);
       setTimeout(() => {
-        overlay!.querySelectorAll('.menu-nav a').forEach((a) => {
+        overlay!.querySelectorAll('.menu-nav a, .menu-nav button').forEach((a) => {
           (a as HTMLElement).style.transition = '';
           (a as HTMLElement).style.opacity = '';
           (a as HTMLElement).style.transform = '';
@@ -68,7 +72,8 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
 
     function handleBtnClick(e: Event) {
       e.stopPropagation();
-      openRef.current ? closeMenu() : openMenu();
+      if (openRef.current) closeMenu();
+      else openMenu();
     }
 
     function handleOverlayClick(e: Event) {
@@ -85,9 +90,11 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
     overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
 
     return () => {
+      if (joinTimerRef.current) window.clearTimeout(joinTimerRef.current);
       btn.removeEventListener('click', handleBtnClick);
       overlay.removeEventListener('click', handleOverlayClick);
       document.removeEventListener('keydown', handleKeydown);
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -110,7 +117,7 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
 
       <div className="menu-overlay" ref={overlayRef} role="dialog" aria-modal="true">
         {/* color:#fff on parent → fill="currentColor" paths render white */}
-        <a
+        <Link
           ref={menuWordmarkRef}
           href="/"
           className="menu-wordmark"
@@ -127,8 +134,19 @@ export default function Nav({ variant = 'fixed' }: { variant?: 'fixed' | 'static
               {label}
             </Link>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              closeMenuRef.current();
+              joinTimerRef.current = window.setTimeout(() => setJoinOpen(true), 220);
+            }}
+          >
+            Join
+          </button>
         </nav>
       </div>
+
+      <JoinModal open={joinOpen} onClose={closeJoin} />
     </>
   );
 }
